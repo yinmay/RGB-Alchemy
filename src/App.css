@@ -13,6 +13,27 @@
   }
 }
 
+.item {
+  height: 30px;
+  width: 30px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  margin: 3px;
+  background: black;
+  color: antiquewhite;
+}
+.itemGray {
+  height: 30px;
+  width: 30px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  color: antiquewhite;
+  margin: 3px;
+  border-radius: 50%;
+}
+
 .App-header {
   min-height: 100vh;
   display: flex;
