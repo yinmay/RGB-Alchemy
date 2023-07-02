@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import request from './utils/request'
+import UserDescriptions from './components/UserDescriptions'
+import AlchemyPanel from './components/AlchemyPanel'
 
-interface IUser {
+export interface IUser {
   userId: string
   width: number
   height: number
@@ -36,34 +38,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div>
-          <div>User ID:{user.userId}</div>
-          <div>Moves left:{user.maxMoves}</div>
-          <div>
-            Target color:
-            <div
-              className="colorBox"
-              style={{ background: `rgb(${user.target?.join(',')})` }}
-            ></div>
-          </div>
-          <div>
-            Closest color:
-            <div
-              className="colorBox"
-              style={{ background: `rgb(${user.closest?.join(',')})` }}
-            ></div>
-          </div>
-        </div>
+        <UserDescriptions user={user} />
+        <AlchemyPanel />
       </header>
     </div>
   )
-}
-
-const styles = {
-  colorBox: {
-    width: 20,
-    height: 20,
-  },
 }
 
 export default App
