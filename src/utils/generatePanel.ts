@@ -37,7 +37,7 @@ const getResult = (
     } else if (type === 'row') {
       p = y === 0 ? changeColorArr.length + 1 - y0 : y0
     }
-    // calculate every column or row's cell color => gradient
+    // calculate every column or row's cell color
     const color = initColor.map((color) => {
       if (color === 255) {
         color = Math.floor((255 * p) / total)

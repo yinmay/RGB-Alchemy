@@ -36,7 +36,7 @@ const DropHeader: React.FC<IProps> = ({
     <button
       ref={drop}
       data-testid="dustbin"
-      className="itemGray" //header
+      className="header" //header
       key={`${lineIndex}${itemIndex}`}
       disabled={step.length >= 3 ? true : false}
       onClick={() => handleClick(item, 'header')}
@@ -50,7 +50,7 @@ const DropHeader: React.FC<IProps> = ({
             ? 'hidden'
             : 'inherit',
       }}
-    >{`${item.x}/${item.y}`}</button>
+    ></button>
   )
 }
 

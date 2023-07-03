@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { Button, Modal } from 'antd'
+import { Layout, Modal } from 'antd'
 
 import './App.css'
 import request from './utils/request'
 import UserDescriptions from './components/UserDescriptions'
 import AlchemyPanel from './components/AlchemyPanel'
 import { IItem } from './components/AlchemyPanel'
+
+const { Content } = Layout
+
 export interface IUser {
   userId: string
   width: number
@@ -76,27 +79,35 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-          <p>Play again</p>
-        </Modal>
-        <UserDescriptions
-          user={user}
-          closestCell={closestCell}
-          maxMoves={user.maxMoves - step.length}
-        />
-        <DndProvider backend={HTML5Backend}>
-          <AlchemyPanel
-            setStep={setStep}
+      <Layout>
+        <Content style={contentStyle}>
+          <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <p>Play again</p>
+          </Modal>
+          <UserDescriptions
             user={user}
-            step={step}
-            setClosestCell={setClosestCell}
             closestCell={closestCell}
+            maxMoves={user.maxMoves - step.length}
           />
-        </DndProvider>
-      </header>
+          <DndProvider backend={HTML5Backend}>
+            <AlchemyPanel
+              setStep={setStep}
+              user={user}
+              step={step}
+              setClosestCell={setClosestCell}
+              closestCell={closestCell}
+            />
+          </DndProvider>
+        </Content>
+      </Layout>
     </div>
   )
 }
 
 export default App
+
+const contentStyle: React.CSSProperties = {
+  textAlign: 'center',
+  padding: 20,
+  color: '#fff',
+}

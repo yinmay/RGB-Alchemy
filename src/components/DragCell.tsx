@@ -35,14 +35,14 @@ const DragCell: React.FC<IProps> = ({
       ref={drag}
       key={`${lineIndex}${itemIndex}`}
       disabled={step.length < 3 ? true : false}
-      className="item"
+      className="cell"
       onClick={() => handleClick(item, 'cell')}
       style={{
         cursor: 'move',
         background: `rgb(${item?.color?.join(',')})`,
         border: x === lineIndex && y === itemIndex ? '3px solid red' : 'none',
       }}
-    >{`${item.x}/${item.y}`}</button>
+    ></button>
   )
 }
 
