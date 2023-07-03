@@ -1,25 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useDrag } from 'react-dnd'
 
 import { IItem } from './AlchemyPanel'
-
+import { appContext } from '../App'
 interface IProps {
-  step: IItem[] | []
   handleClick: (item: IItem, type: 'cell' | 'header') => void
   item: IItem
-  closestCell: IItem
   lineIndex: number
   itemIndex: number
 }
 
 const DragCell: React.FC<IProps> = ({
-  step,
   handleClick,
   item,
   lineIndex,
   itemIndex,
-  closestCell,
 }) => {
+  const contextValue = useContext(appContext)
   const type = `${lineIndex}${itemIndex}`
   const [, drag] = useDrag(
     () => ({
@@ -28,13 +25,13 @@ const DragCell: React.FC<IProps> = ({
     }),
     [item, type]
   )
-  const { x, y } = closestCell
+  const { x, y } = contextValue.closestCell
   return (
     <button
       data-testid="box"
       ref={drag}
       key={`${lineIndex}${itemIndex}`}
-      disabled={step.length < 3 ? true : false}
+      disabled={contextValue.step.length < 3 ? true : false}
       className="cell"
       onClick={() => handleClick(item, 'cell')}
       style={{

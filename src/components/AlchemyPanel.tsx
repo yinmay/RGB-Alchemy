@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import DragCell from './DragCell'
 import DropHeader from './DropHeader'
 import {
@@ -6,15 +6,9 @@ import {
   generateTable,
   findSmallestGapCell,
 } from '../utils/generatePanel'
-import { IUser, initCell } from '../App'
+import { initCell, appContext } from '../App'
 
-interface IProps {
-  user: IUser
-  step: IItem[] | []
-  setStep: React.Dispatch<React.SetStateAction<IItem[] | []>>
-  setClosestCell: React.Dispatch<React.SetStateAction<IItem>>
-  closestCell: IItem
-}
+interface IProps {}
 
 export interface IItem {
   x: number
@@ -30,26 +24,25 @@ const initColorGroup = [
   [0, 0, 255],
 ]
 
-const AlchemyPanel: React.FC<IProps> = ({
-  user,
-  step,
-  setStep,
-  setClosestCell,
-  closestCell,
-}) => {
-  const { height: row, width: col, target } = user
+const AlchemyPanel: React.FC<IProps> = () => {
+  const contextValue = useContext(appContext)
+
+  const { height: row, width: col, target } = contextValue.user
+
   let panel = generateTable(row, col, target)
   const [colorPanel, setColorPanel] = useState([...panel])
-  useEffect(() => setColorPanel([...panel]), [user])
+  useEffect(() => setColorPanel([...panel]), [contextValue.user])
   const handleClick = (item: IItem) => {
-    const hasClick = step.find((s) => s.x === item.x && s.y === item.y)
+    const hasClick = contextValue.step.find(
+      (s) => s.x === item.x && s.y === item.y
+    )
     if (hasClick) {
       return
     } else {
-      setStep(() => [...step, item])
+      contextValue.setStep(() => [...contextValue.step, item])
     }
 
-    const initColor = initColorGroup[step.length]
+    const initColor = initColorGroup[contextValue.step.length]
     const newPanel = calculateColorPanel(item, colorPanel, initColor, target)
     setColorPanel([...newPanel])
   }
@@ -62,8 +55,11 @@ const AlchemyPanel: React.FC<IProps> = ({
     )
     setColorPanel([...newPanel])
     const cloestCell = findSmallestGapCell(colorPanel) ?? initCell
-    setClosestCell({ ...cloestCell })
-    setStep(() => [...step, { ...item, color: dragItem.color }])
+    contextValue.setClosestCell({ ...cloestCell })
+    contextValue.setStep(() => [
+      ...contextValue.step,
+      { ...item, color: dragItem.color },
+    ])
   }
 
   return (
@@ -81,7 +77,6 @@ const AlchemyPanel: React.FC<IProps> = ({
               <DropHeader
                 lineIndex={lineIndex}
                 itemIndex={itemIndex}
-                step={step}
                 handleClick={handleClick}
                 item={item}
                 length={colorPanel.length}
@@ -92,10 +87,8 @@ const AlchemyPanel: React.FC<IProps> = ({
               <DragCell
                 lineIndex={lineIndex}
                 itemIndex={itemIndex}
-                step={step}
                 handleClick={handleClick}
                 item={item}
-                closestCell={closestCell}
               />
             )
           })}

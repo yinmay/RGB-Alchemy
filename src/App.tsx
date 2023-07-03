@@ -37,14 +37,40 @@ export const initCell = {
   gap: 0,
 }
 
+interface IContext {
+  user: IUser
+  closestCell: IItem
+  step: IItem[] | []
+  setStep: React.Dispatch<React.SetStateAction<IItem[] | []>>
+  setClosestCell: React.Dispatch<React.SetStateAction<IItem>>
+}
+
+const initContext = {
+  user: initUser,
+  closestCell: initCell,
+  step: [],
+  setStep: () => {},
+  setClosestCell: () => {},
+}
+
+export const appContext = React.createContext<IContext>({ ...initContext })
 function App() {
   const [user, setUser] = useState<IUser>({
     ...initUser,
   })
   const [isModalOpen, setIsModalOpen] = useState(false)
-
   const [step, setStep] = useState<IItem[] | []>([])
   const [closestCell, setClosestCell] = useState<IItem>({ ...initCell })
+
+  const contextValue = {
+    user,
+    setUser,
+    step,
+    setStep,
+    closestCell,
+    setClosestCell,
+  }
+
   useEffect(() => {
     request({
       method: 'get',
@@ -78,33 +104,25 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Layout>
-        <Content style={contentStyle}>
-          <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-            <p>
-              You are
-              {user.maxMoves - step.length > 0 ? ' successful' : ' failed'}, do
-              you want to play again?
-            </p>
-          </Modal>
-          <UserDescriptions
-            user={user}
-            closestCell={closestCell}
-            maxMoves={user.maxMoves - step.length}
-          />
-          <DndProvider backend={HTML5Backend}>
-            <AlchemyPanel
-              setStep={setStep}
-              user={user}
-              step={step}
-              setClosestCell={setClosestCell}
-              closestCell={closestCell}
-            />
-          </DndProvider>
-        </Content>
-      </Layout>
-    </div>
+    <appContext.Provider value={contextValue}>
+      <div className="App">
+        <Layout>
+          <Content style={contentStyle}>
+            <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+              <p>
+                You are
+                {user.maxMoves - step.length > 0 ? ' successful' : ' failed'},
+                do you want to play again?
+              </p>
+            </Modal>
+            <UserDescriptions maxMoves={user.maxMoves - step.length} />
+            <DndProvider backend={HTML5Backend}>
+              <AlchemyPanel />
+            </DndProvider>
+          </Content>
+        </Layout>
+      </div>
+    </appContext.Provider>
   )
 }
 

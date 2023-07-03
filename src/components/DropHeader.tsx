@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useDrop } from 'react-dnd'
 
 import { IItem } from './AlchemyPanel'
+import { appContext } from '../App'
 
 interface IProps {
-  step: IItem[] | []
   handleClick: (item: IItem, type: 'cell' | 'header') => void
   item: IItem
   line: IItem[]
@@ -15,7 +15,6 @@ interface IProps {
 }
 
 const DropHeader: React.FC<IProps> = ({
-  step,
   handleClick,
   item,
   lineIndex,
@@ -24,6 +23,8 @@ const DropHeader: React.FC<IProps> = ({
   line,
   onDrop,
 }) => {
+  const contextValue = useContext(appContext)
+
   const [, drop] = useDrop({
     accept: 'cell',
     drop: onDrop,
@@ -38,7 +39,7 @@ const DropHeader: React.FC<IProps> = ({
       data-testid="dustbin"
       className="header" //header
       key={`${lineIndex}${itemIndex}`}
-      disabled={step.length >= 3 ? true : false}
+      disabled={contextValue.step.length >= 3 ? true : false}
       onClick={() => handleClick(item, 'header')}
       style={{
         background: `rgb(${item?.color?.join(',')})`,
