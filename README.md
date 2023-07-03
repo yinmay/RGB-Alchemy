@@ -8,13 +8,15 @@ A code chanllenge with react application
 - `yarn` or `npm install` to install front end
 - ` cd color-alchemy-server` and `yarn` or `npm install` to install back end
 
-### Start the project
+## Start the project
 
 - `yarn start` or `npm start` to start back end
 - `cd ..`and `yarn start` or `npm start` to start front end
 
 Runs the app in the development mode.
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Screenshots
 
 ## project structure
 
@@ -33,3 +35,9 @@ index.css
 index
 app
 ```
+
+## Technologies
+
+- framework => react / typescript
+- ui library => antd 5
+- state management => useContext
