@@ -82,7 +82,11 @@ function App() {
       <Layout>
         <Content style={contentStyle}>
           <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-            <p>Play again</p>
+            <p>
+              You are
+              {user.maxMoves - step.length > 0 ? ' successful' : ' failed'}, do
+              you want to play again?
+            </p>
           </Modal>
           <UserDescriptions
             user={user}

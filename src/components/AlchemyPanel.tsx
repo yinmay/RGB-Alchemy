@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import DragCell from './DragCell'
 import DropHeader from './DropHeader'
 import {
-  computeColor,
+  calculateColorPanel,
   generateTable,
   findSmallestGapCell,
 } from '../utils/generatePanel'
@@ -50,11 +50,16 @@ const AlchemyPanel: React.FC<IProps> = ({
     }
 
     const initColor = initColorGroup[step.length]
-    const newPanel = computeColor(item, colorPanel, initColor, target)
+    const newPanel = calculateColorPanel(item, colorPanel, initColor, target)
     setColorPanel([...newPanel])
   }
   const handleDrop = (dragItem: IItem, item: IItem) => {
-    const newPanel = computeColor(item, colorPanel, dragItem.color, target)
+    const newPanel = calculateColorPanel(
+      item,
+      colorPanel,
+      dragItem.color,
+      target
+    )
     setColorPanel([...newPanel])
     const cloestCell = findSmallestGapCell(colorPanel) ?? initCell
     setClosestCell({ ...cloestCell })

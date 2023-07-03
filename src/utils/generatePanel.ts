@@ -17,7 +17,32 @@ function generateTable(row: number, col: number, target: number[]) {
   return array
 }
 
-const getResult = (
+const calculateColorForCell = (
+  p: number,
+  total: number,
+  initColor: number[]
+) => {
+  return initColor.map((c) => {
+    if (c === 255) {
+      c = Math.floor((255 * p) / total)
+    }
+    return c
+  })
+}
+
+const calculateColorGap = (target: number[], resColor: number[]) => {
+  return (
+    (1 / 255) *
+    (1 / Math.sqrt(3)) *
+    Math.sqrt(
+      Math.pow(target[0] - resColor[0], 2) +
+        Math.pow(target[1] - resColor[1], 2) +
+        Math.pow(target[2] - resColor[2], 2)
+    )
+  )
+}
+
+const getChangedColorPanel = (
   type: 'column' | 'row',
   changeColorArr: IItem[],
   panel: IItem[][],
@@ -38,12 +63,8 @@ const getResult = (
       p = y === 0 ? changeColorArr.length + 1 - y0 : y0
     }
     // calculate every column or row's cell color
-    const color = initColor.map((color) => {
-      if (color === 255) {
-        color = Math.floor((255 * p) / total)
-      }
-      return color
-    })
+    const color = calculateColorForCell(p, total, initColor)
+
     changePanel[x0][y0].colorGroup = changePanel[x0][y0].colorGroup.concat([
       color,
     ])
@@ -66,14 +87,7 @@ const getResult = (
         Math.floor(result[2] * f),
       ]
       changePanel[x0][y0].color = resColor
-      changePanel[x0][y0].gap =
-        (1 / 255) *
-        (1 / Math.sqrt(3)) *
-        Math.sqrt(
-          Math.pow(target[0] - resColor[0], 2) +
-            Math.pow(target[1] - resColor[1], 2) +
-            Math.pow(target[2] - resColor[2], 2)
-        )
+      changePanel[x0][y0].gap = calculateColorGap(target, resColor)
     } else {
       // if the cell's color is just one
       changePanel[x0][y0].color = color
@@ -82,7 +96,7 @@ const getResult = (
   return changePanel
 }
 
-const computeColor = (
+const calculateColorPanel = (
   item: IItem,
   colorPanel: IItem[][] = [],
   initColor: number[],
@@ -104,7 +118,7 @@ const computeColor = (
             (item) => item.x !== 0 && item.x !== length
           )
           // get the change color column
-          changePanel = getResult(
+          changePanel = getChangedColorPanel(
             'column',
             changeColorArr,
             changePanel,
@@ -119,7 +133,7 @@ const computeColor = (
             (item) => item.y !== 0 && item.y !== length
           )
           // get the change color row
-          changePanel = getResult(
+          changePanel = getChangedColorPanel(
             'row',
             changeColorArr,
             changePanel,
@@ -144,4 +158,4 @@ const findSmallestGapCell = (arr: IItem[][]) => {
   }, null)
 }
 
-export { computeColor, generateTable, findSmallestGapCell }
+export { calculateColorPanel, generateTable, findSmallestGapCell }
