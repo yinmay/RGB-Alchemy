@@ -6,12 +6,14 @@ import { IItem } from './AlchemyPanel'
 interface IProps {
   user: IUser
   closestCell: IItem
+  maxMoves: number
 }
 
 const UserDescriptions: React.FC<IProps> = (props) => {
   const {
-    user: { userId, maxMoves, target },
+    user: { userId, target },
     closestCell,
+    maxMoves,
   } = props
   return (
     <Descriptions title="User Info">

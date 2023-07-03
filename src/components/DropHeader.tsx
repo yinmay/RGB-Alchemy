@@ -8,7 +8,7 @@ interface IProps {
   handleClick: (item: IItem, type: 'cell' | 'header') => void
   item: IItem
   line: IItem[]
-  lineInddx: number
+  lineIndex: number
   itemIndex: number
   length: number
   onDrop: (item: IItem) => void
@@ -18,14 +18,13 @@ const DropHeader: React.FC<IProps> = ({
   step,
   handleClick,
   item,
-  lineInddx,
+  lineIndex,
   itemIndex,
   length,
   line,
   onDrop,
-  // accept,
 }) => {
-  const [{ isOver, canDrop }, drop] = useDrop({
+  const [, drop] = useDrop({
     accept: 'cell',
     drop: onDrop,
     collect: (monitor) => ({
@@ -38,15 +37,15 @@ const DropHeader: React.FC<IProps> = ({
       ref={drop}
       data-testid="dustbin"
       className="itemGray" //header
-      key={`${lineInddx}${itemIndex}`}
+      key={`${lineIndex}${itemIndex}`}
       disabled={step.length >= 3 ? true : false}
       onClick={() => handleClick(item, 'header')}
       style={{
         background: `rgb(${item?.color?.join(',')})`,
         visibility:
-          (lineInddx === 0 &&
+          (lineIndex === 0 &&
             (itemIndex === 0 || itemIndex === line.length - 1)) ||
-          (lineInddx === length - 1 &&
+          (lineIndex === length - 1 &&
             (itemIndex === 0 || itemIndex === line.length - 1))
             ? 'hidden'
             : 'inherit',

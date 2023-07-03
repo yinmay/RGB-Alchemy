@@ -13,6 +13,7 @@ interface IProps {
   step: IItem[] | []
   setStep: React.Dispatch<React.SetStateAction<IItem[] | []>>
   setClosestCell: React.Dispatch<React.SetStateAction<IItem>>
+  closestCell: IItem
 }
 
 export interface IItem {
@@ -34,6 +35,7 @@ const AlchemyPanel: React.FC<IProps> = ({
   step,
   setStep,
   setClosestCell,
+  closestCell,
 }) => {
   const { height: row, width: col, target } = user
   let panel = generateTable(row, col, target)
@@ -56,22 +58,23 @@ const AlchemyPanel: React.FC<IProps> = ({
     setColorPanel([...newPanel])
     const cloestCell = findSmallestGapCell(colorPanel) ?? initCell
     setClosestCell({ ...cloestCell })
+    setStep(() => [...step, { ...item, color: dragItem.color }])
   }
 
   return (
     <div>
-      {colorPanel?.map((line: IItem[], lineInddx: number) => (
-        <div className="line" key={lineInddx}>
+      {colorPanel?.map((line: IItem[], lineIndex: number) => (
+        <div className="line" key={lineIndex}>
           {line?.map((item: IItem, itemIndex: number) => {
             const condition =
-              lineInddx === 0 ||
+              lineIndex === 0 ||
               itemIndex === 0 ||
-              lineInddx === row + 2 - 1 ||
+              lineIndex === row + 2 - 1 ||
               itemIndex === col + 2 - 1
 
             return condition ? (
               <DropHeader
-                lineInddx={lineInddx}
+                lineIndex={lineIndex}
                 itemIndex={itemIndex}
                 step={step}
                 handleClick={handleClick}
@@ -82,11 +85,12 @@ const AlchemyPanel: React.FC<IProps> = ({
               />
             ) : (
               <DragCell
-                lineInddx={lineInddx}
+                lineIndex={lineIndex}
                 itemIndex={itemIndex}
                 step={step}
                 handleClick={handleClick}
                 item={item}
+                closestCell={closestCell}
               />
             )
           })}

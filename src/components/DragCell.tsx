@@ -7,7 +7,8 @@ interface IProps {
   step: IItem[] | []
   handleClick: (item: IItem, type: 'cell' | 'header') => void
   item: IItem
-  lineInddx: number
+  closestCell: IItem
+  lineIndex: number
   itemIndex: number
 }
 
@@ -15,31 +16,31 @@ const DragCell: React.FC<IProps> = ({
   step,
   handleClick,
   item,
-  lineInddx,
+  lineIndex,
   itemIndex,
+  closestCell,
 }) => {
-  const type = `${lineInddx}${itemIndex}`
+  const type = `${lineIndex}${itemIndex}`
   const [, drag] = useDrag(
     () => ({
       type: 'cell',
       item,
-      // collect: (monitor) => ({
-      //   opacity: monitor.isDragging() ? 0.4 : 1,
-      // }),
     }),
     [item, type]
   )
+  const { x, y } = closestCell
   return (
     <button
       data-testid="box"
       ref={drag}
-      key={`${lineInddx}${itemIndex}`}
+      key={`${lineIndex}${itemIndex}`}
       disabled={step.length < 3 ? true : false}
       className="item"
-      onClick={() => handleClick(item, 'cell')} //cell
+      onClick={() => handleClick(item, 'cell')}
       style={{
         cursor: 'move',
         background: `rgb(${item?.color?.join(',')})`,
+        border: x === lineIndex && y === itemIndex ? '3px solid red' : 'none',
       }}
     >{`${item.x}/${item.y}`}</button>
   )
