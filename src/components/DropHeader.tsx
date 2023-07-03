@@ -12,7 +12,6 @@ interface IProps {
   itemIndex: number
   length: number
   onDrop: (item: IItem) => void
-  // accept: string[]
 }
 
 const DropHeader: React.FC<IProps> = ({

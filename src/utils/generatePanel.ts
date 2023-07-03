@@ -134,4 +134,13 @@ const computeColor = (
   return changePanel
 }
 
-export { computeColor, generateTable }
+function findSmallestGapCell(arr: IItem[][]) {
+  return arr.flat().reduce((prev: IItem | null, curr) => {
+    if (curr.gap !== 0 && (prev === null || curr.gap < prev.gap)) {
+      return curr
+    } else {
+      return prev
+    }
+  }, null)
+}
+export { computeColor, generateTable, findSmallestGapCell }

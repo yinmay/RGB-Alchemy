@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import DragCell from './DragCell'
 import DropHeader from './DropHeader'
-import { computeColor, generateTable } from '../utils/generatePanel'
-import { IUser } from '../App'
+import {
+  computeColor,
+  generateTable,
+  findSmallestGapCell,
+} from '../utils/generatePanel'
+import { IUser, initCell } from '../App'
 
 interface IProps {
   user: IUser
   step: IItem[] | []
   setStep: React.Dispatch<React.SetStateAction<IItem[] | []>>
+  setClosestCell: React.Dispatch<React.SetStateAction<IItem>>
 }
 
 export interface IItem {
-  find(arg0: (s: any) => boolean): unknown
-  length: number
   x: number
   y: number
   color: number[]
@@ -26,7 +29,12 @@ const initColorGroup = [
   [0, 0, 255],
 ]
 
-const AlchemyPanel: React.FC<IProps> = ({ user, step, setStep }) => {
+const AlchemyPanel: React.FC<IProps> = ({
+  user,
+  step,
+  setStep,
+  setClosestCell,
+}) => {
   const { height: row, width: col, target } = user
   let panel = generateTable(row, col, target)
   const [colorPanel, setColorPanel] = useState([...panel])
@@ -46,6 +54,8 @@ const AlchemyPanel: React.FC<IProps> = ({ user, step, setStep }) => {
   const handleDrop = (dragItem: IItem, item: IItem) => {
     const newPanel = computeColor(item, colorPanel, dragItem.color, target)
     setColorPanel([...newPanel])
+    const cloestCell = findSmallestGapCell(colorPanel) ?? initCell
+    setClosestCell({ ...cloestCell })
   }
 
   return (
@@ -69,7 +79,6 @@ const AlchemyPanel: React.FC<IProps> = ({ user, step, setStep }) => {
                 length={colorPanel.length}
                 line={line}
                 onDrop={(dragItem) => handleDrop(dragItem, item)}
-                // accept={['']}
               />
             ) : (
               <DragCell

@@ -25,12 +25,20 @@ const initUser = {
   closest: [0, 0, 0],
 }
 
+export const initCell = {
+  x: 0,
+  y: 0,
+  color: [0, 0, 0],
+  colorGroup: [],
+  gap: 0,
+}
+
 function App() {
   const [user, setUser] = useState<IUser>({
     ...initUser,
   })
   const [step, setStep] = useState<IItem[] | []>([])
-
+  const [closestCell, setClosestCell] = useState<IItem>({ ...initCell })
   useEffect(() => {
     request({
       method: 'get',
@@ -41,9 +49,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <UserDescriptions user={user} />
+        <UserDescriptions user={user} closestCell={closestCell} />
         <DndProvider backend={HTML5Backend}>
-          <AlchemyPanel setStep={setStep} user={user} step={step} />
+          <AlchemyPanel
+            setStep={setStep}
+            user={user}
+            step={step}
+            setClosestCell={setClosestCell}
+          />
         </DndProvider>
       </header>
     </div>

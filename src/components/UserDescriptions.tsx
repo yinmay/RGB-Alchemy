@@ -2,13 +2,16 @@ import React from 'react'
 import { Descriptions } from 'antd'
 
 import { IUser } from '../App'
+import { IItem } from './AlchemyPanel'
 interface IProps {
   user: IUser
+  closestCell: IItem
 }
 
 const UserDescriptions: React.FC<IProps> = (props) => {
   const {
-    user: { userId, maxMoves, target, closest = [0, 0, 0] },
+    user: { userId, maxMoves, target },
+    closestCell,
   } = props
   return (
     <Descriptions title="User Info">
@@ -23,7 +26,7 @@ const UserDescriptions: React.FC<IProps> = (props) => {
       <Descriptions.Item label="Closest color">
         <div
           className="colorBox"
-          style={{ background: `rgb(${closest?.join(',')})` }}
+          style={{ background: `rgb(${closestCell.color?.join(',')})` }}
         ></div>
       </Descriptions.Item>
     </Descriptions>
