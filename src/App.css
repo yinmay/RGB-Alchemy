@@ -14,8 +14,8 @@
 }
 
 .item {
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   justify-content: center;
   align-items: center;
   border: 1px solid black;
@@ -24,8 +24,8 @@
   color: antiquewhite;
 }
 .itemGray {
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   justify-content: center;
   align-items: center;
   border: 1px solid black;

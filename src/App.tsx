@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
 import './App.css'
 import request from './utils/request'
 import UserDescriptions from './components/UserDescriptions'
@@ -39,7 +42,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <UserDescriptions user={user} />
-        <AlchemyPanel setStep={setStep} user={user} step={step} />
+        <DndProvider backend={HTML5Backend}>
+          <AlchemyPanel setStep={setStep} user={user} step={step} />
+        </DndProvider>
       </header>
     </div>
   )
