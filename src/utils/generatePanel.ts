@@ -57,9 +57,9 @@ const getChangedColorPanel = (
     const y0 = changeColorArr[f].y
     const total = changeColorArr.length + 1
     let p = 0
-    if (type === 'column') {
+    if (type === 'row') {
       p = x === 0 ? changeColorArr.length + 1 - x0 : x0
-    } else if (type === 'row') {
+    } else if (type === 'column') {
       p = y === 0 ? changeColorArr.length + 1 - y0 : y0
     }
     // calculate every column or row's cell color
@@ -117,9 +117,9 @@ const calculateColorPanel = (
           let changeColorArr = arr.filter(
             (item) => item.x !== 0 && item.x !== length
           )
-          // get the change color column
+          // get the change color row
           changePanel = getChangedColorPanel(
-            'column',
+            'row',
             changeColorArr,
             changePanel,
             initColor,
@@ -132,9 +132,9 @@ const calculateColorPanel = (
           let changeColorArr = arr.filter(
             (item) => item.y !== 0 && item.y !== length
           )
-          // get the change color row
+          // get the change color column
           changePanel = getChangedColorPanel(
-            'row',
+            'column',
             changeColorArr,
             changePanel,
             initColor,
