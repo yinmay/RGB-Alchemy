@@ -91,6 +91,7 @@ const getChangedColorPanel = (
     } else {
       // if the cell's color is just one
       changePanel[x0][y0].color = color
+      changePanel[x0][y0].gap = calculateColorGap(target, color)
     }
   }
   return changePanel

@@ -45,6 +45,8 @@ const AlchemyPanel: React.FC<IProps> = () => {
     const initColor = initColorGroup[contextValue.step.length]
     const newPanel = calculateColorPanel(item, colorPanel, initColor, target)
     setColorPanel([...newPanel])
+    const cloestCell = findSmallestGapCell(colorPanel) ?? initCell
+    contextValue.setClosestCell({ ...cloestCell })
   }
   const handleDrop = (dragItem: IItem, item: IItem) => {
     const newPanel = calculateColorPanel(
