@@ -4,7 +4,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Layout, Modal } from 'antd'
 
 import './App.css'
-import request from './utils/request'
+import request from './fetchs/request'
 import UserDescriptions from './components/UserDescriptions'
 import AlchemyPanel from './components/AlchemyPanel'
 import { IItem } from './components/AlchemyPanel'
@@ -105,7 +105,7 @@ function App() {
 
   return (
     <appContext.Provider value={contextValue}>
-      <div className="App">
+      <div className="App" style={{ minWidth: user.width * 50 }}>
         <Layout>
           <Content style={contentStyle}>
             <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>

@@ -25,6 +25,8 @@ const calculateColorForCell = (
   return initColor.map((c) => {
     if (c === 255) {
       c = Math.floor((255 * p) / total)
+    } else {
+      c = Math.floor((c * p) / total)
     }
     return c
   })
@@ -118,6 +120,7 @@ const calculateColorPanel = (
           let changeColorArr = arr.filter(
             (item) => item.x !== 0 && item.x !== length
           )
+
           // get the change color row
           changePanel = getChangedColorPanel(
             'row',
@@ -133,6 +136,7 @@ const calculateColorPanel = (
           let changeColorArr = arr.filter(
             (item) => item.y !== 0 && item.y !== length
           )
+
           // get the change color column
           changePanel = getChangedColorPanel(
             'column',
@@ -159,4 +163,9 @@ const findSmallestGapCell = (arr: IItem[][]) => {
   }, null)
 }
 
-export { calculateColorPanel, generateTable, findSmallestGapCell }
+export {
+  calculateColorPanel,
+  generateTable,
+  findSmallestGapCell,
+  calculateColorGap,
+}

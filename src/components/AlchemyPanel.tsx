@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
-import DragCell from './DragCell'
-import DropHeader from './DropHeader'
+import Tile from './Tile'
+import Source from './Source'
 import {
   calculateColorPanel,
   generateTable,
@@ -33,6 +33,7 @@ const AlchemyPanel: React.FC<IProps> = () => {
   const [colorPanel, setColorPanel] = useState([...panel])
   useEffect(() => setColorPanel([...panel]), [contextValue.user])
   const handleClick = (item: IItem) => {
+    console.log(item, 12312312)
     const hasClick = contextValue.step.find(
       (s) => s.x === item.x && s.y === item.y
     )
@@ -50,11 +51,12 @@ const AlchemyPanel: React.FC<IProps> = () => {
   }
   const handleDrop = (dragItem: IItem, item: IItem) => {
     const newPanel = calculateColorPanel(
-      item,
+      { ...item },
       colorPanel,
       dragItem.color,
       target
     )
+    console.log(newPanel)
     setColorPanel([...newPanel])
     const cloestCell = findSmallestGapCell(colorPanel) ?? initCell
     contextValue.setClosestCell({ ...cloestCell })
@@ -76,7 +78,8 @@ const AlchemyPanel: React.FC<IProps> = () => {
               itemIndex === col + 2 - 1
 
             return condition ? (
-              <DropHeader
+              <Source
+                key={`${lineIndex}/${itemIndex}`}
                 lineIndex={lineIndex}
                 itemIndex={itemIndex}
                 handleClick={handleClick}
@@ -86,7 +89,8 @@ const AlchemyPanel: React.FC<IProps> = () => {
                 onDrop={(dragItem) => handleDrop(dragItem, item)}
               />
             ) : (
-              <DragCell
+              <Tile
+                key={`${lineIndex}/${itemIndex}`}
                 lineIndex={lineIndex}
                 itemIndex={itemIndex}
                 handleClick={handleClick}

@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Descriptions } from 'antd'
 
 import { appContext } from '../App'
+import { calculateColorGap } from '../utils/generatePanel'
 interface IProps {
   maxMoves: number
 }
@@ -9,6 +10,12 @@ interface IProps {
 const UserDescriptions: React.FC<IProps> = (props) => {
   const { maxMoves } = props
   const contextValue = useContext(appContext)
+  const gap = calculateColorGap(
+    contextValue?.user?.target,
+    contextValue?.closestCell.color
+  )
+  const gapPercentage = (gap * 100).toFixed(2)
+  console.log(gap, 23424)
   return (
     <Descriptions title="User Info">
       <Descriptions.Item label="User ID">
@@ -28,6 +35,7 @@ const UserDescriptions: React.FC<IProps> = (props) => {
             background: `rgb(${contextValue.closestCell?.color?.join(',')})`,
           }}
         ></div>
+        <span>Δ = {gapPercentage}%</span>
       </Descriptions.Item>
     </Descriptions>
   )
