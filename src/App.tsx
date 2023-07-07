@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { Layout, Modal } from 'antd'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
 
 import './App.css'
 import request from './fetchs/request'
 import UserDescriptions from './components/UserDescriptions'
 import AlchemyPanel from './components/AlchemyPanel'
 import { IItem } from './components/AlchemyPanel'
-
-const { Content } = Layout
 
 export interface IUser {
   userId: string
@@ -106,30 +107,29 @@ function App() {
   return (
     <appContext.Provider value={contextValue}>
       <div className="App" style={{ minWidth: user.width * 50 }}>
-        <Layout>
-          <Content style={contentStyle}>
-            <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-              <p>
-                You are
-                {user.maxMoves - step.length > 0 ? ' successful' : ' failed'},
-                do you want to play again?
-              </p>
-            </Modal>
-            <UserDescriptions maxMoves={user.maxMoves - step.length} />
-            <DndProvider backend={HTML5Backend}>
-              <AlchemyPanel />
-            </DndProvider>
-          </Content>
-        </Layout>
+        <Dialog onClose={handleCancel} open={isModalOpen}>
+          <DialogTitle>
+            <p>
+              You are
+              {user.maxMoves - step.length > 0 ? ' successful' : ' failed'}, do
+              you want to play again?
+            </p>
+          </DialogTitle>
+
+          <DialogActions>
+            <Button onClick={handleCancel}>Disagree</Button>
+            <Button onClick={handleOk} autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <UserDescriptions maxMoves={user.maxMoves - step.length} />
+        <DndProvider backend={HTML5Backend}>
+          <AlchemyPanel />
+        </DndProvider>
       </div>
     </appContext.Provider>
   )
 }
 
 export default App
-
-const contentStyle: React.CSSProperties = {
-  textAlign: 'center',
-  padding: 20,
-  color: '#fff',
-}
