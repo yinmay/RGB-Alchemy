@@ -15,7 +15,6 @@ const UserDescriptions: React.FC<IProps> = (props) => {
     contextValue?.closestCell.color
   )
   const gapPercentage = (gap * 100).toFixed(2)
-  console.log(gap, 23424)
   return (
     <Descriptions title="User Info">
       <Descriptions.Item label="User ID">

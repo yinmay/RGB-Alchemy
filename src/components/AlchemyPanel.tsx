@@ -33,7 +33,6 @@ const AlchemyPanel: React.FC<IProps> = () => {
   const [colorPanel, setColorPanel] = useState([...panel])
   useEffect(() => setColorPanel([...panel]), [contextValue.user])
   const handleClick = (item: IItem) => {
-    console.log(item, 12312312)
     const hasClick = contextValue.step.find(
       (s) => s.x === item.x && s.y === item.y
     )
@@ -56,7 +55,6 @@ const AlchemyPanel: React.FC<IProps> = () => {
       dragItem.color,
       target
     )
-    console.log(newPanel)
     setColorPanel([...newPanel])
     const cloestCell = findSmallestGapCell(colorPanel) ?? initCell
     contextValue.setClosestCell({ ...cloestCell })
