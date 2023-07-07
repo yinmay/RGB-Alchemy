@@ -42,7 +42,7 @@ const Tile: React.FC<IProps> = ({
             style={{
               cursor: 'move',
               background: `rgb(${item?.color?.join(',')})`,
-              border:
+              outline:
                 x === lineIndex && y === itemIndex ? '3px solid red' : 'none',
             }}
           ></button>
